@@ -5,17 +5,17 @@
 #include <iostream>  // Needed for cout
 using namespace std;
 
+int depthBelow = 0;
+
 class Node {
 private:
 	int val;
-	int depthBelow;
 	Node *pLeft;
 	Node *pRight;
 
 public:
 	Node(int inVal) {
 		val = inVal;
-		depthBelow=0;
 		pLeft=NULL;
 		pRight=NULL;
 	}
@@ -38,53 +38,60 @@ public:
 
 	void traverseInOrder() {
 		if (pLeft) {
+			depthBelow++;
 			cout << "traverse left" << endl;
 			pLeft->traverseInOrder();
 		}
 
 		cout << "process in order, " << "value is " << val << ", depth is " << depthBelow << endl;
-		depthBelow++;
 
 		if (pRight) {
+			depthBelow++;
 			cout << "traverse right" << endl;
 			pRight->traverseInOrder();
 		}
+
+		depthBelow--;
+		return;
 	}
 
 	void traversePreOrder() {
 		cout << "process pre order, " << "value is " << val << ", depth is " << depthBelow << endl;
-		depthBelow++;
 
 		if (pLeft) {
+			depthBelow++;
 			cout << "traverse left" << endl;
 			pLeft->traversePreOrder();
 		}
 
 		if (pRight) {
+			depthBelow++;
 			cout << "traverse right" << endl;
 			pRight->traversePreOrder();
 		}
 
+		depthBelow--;
 		return;
 	}
 
 	void traversePostOrder() {
 		if (pLeft) {
+			depthBelow++;
 			cout << "traverse left" << endl;
 			pLeft->traversePostOrder();
 		}
 
 		if (pRight) {
+			depthBelow++;
 			cout << "traverse right" << endl;
 			pRight->traversePostOrder();
 		}
 
-		cout << "process post order, " << "value is" << val << ", depth is " << depthBelow << endl;
-		depthBelow++;
+		cout << "process post order, " << "value is " << val << ", depth is " << depthBelow << endl;
 
+		depthBelow--;
 		return;
 	}
-
 };
 
 /*
@@ -112,14 +119,17 @@ int main(int argc, char ** argv) {
 
 	cout << " " << endl;
 	cout << "in-order traversal" << endl;
+	depthBelow = 0;
 	n1.traverseInOrder();
 
 	cout << " " << endl;
 	cout << "pre-order traversal" << endl;
+	depthBelow = 0;
 	n1.traversePreOrder();
 
 	cout << " " << endl;
 	cout << "post-order traversal" << endl;
+	depthBelow = 0;
 	n1.traversePostOrder();
 
 	return 0;
